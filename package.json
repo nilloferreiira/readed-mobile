@@ -7,11 +7,16 @@
     "ios": "expo start --ios",
     "start": "expo start",
     "prebuild": "expo prebuild",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
-    "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
     "web": "expo start --web"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": false
+  },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.3",
     "@expo/vector-icons": "^14.0.0",
     "@react-navigation/native": "^6.1.7",
     "expo": "^51.0.22",
@@ -34,18 +39,11 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
-    "@typescript-eslint/eslint-plugin": "^7.7.0",
-    "@typescript-eslint/parser": "^7.7.0",
-    "eslint": "^8.57.0",
-    "eslint-config-universe": "^12.0.1",
-    "prettier": "^3.2.5",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.0",
     "typescript": "~5.3.3"
-  },
-  "eslintConfig": {
-    "extends": "universe/native",
-    "root": true
   },
   "expo": {
     "install": {
