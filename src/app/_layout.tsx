@@ -21,6 +21,8 @@ export default function Layout() {
   }
 
   return (
+    //criar AuthProvider => funcao para verificar se tem um token no storage =>
+    // mandar o index para pasta public e atraves da funcao getToken() determinar a rota do usuario
     <View className="flex-1 bg-zinc-950">
       <StatusBar
         barStyle={"light-content"}

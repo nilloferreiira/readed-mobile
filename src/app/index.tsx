@@ -1,34 +1,13 @@
-import { api } from "@/server/api"
-import { LoginButton } from "@/components/login-page/login-button"
-import { LogoImage } from "@/components/shared/logo-image"
-import { Text, View } from "react-native"
-import { useEffect, useState } from "react"
-import { user_dev } from "@/storage/const-user"
-import { UserDev } from "@/storage/const-user"
 import * as WebBrowser from "expo-web-browser"
-import { jwtDecode } from "jwt-decode"
+import { useState } from "react"
+import { UserDev } from "@/storage/const-user"
+import { User, userServer } from "@/server/user-server"
+import { user_dev } from "@/storage/const-user"
+import { Text, View } from "react-native"
+import { LogoImage } from "@/components/shared/logo-image"
+import { LoginButton } from "@/components/login-page/login-button"
 
 WebBrowser.maybeCompleteAuthSession()
-
-interface ResponseData {
-  data: {
-    token: string
-  }
-}
-
-interface User {
-  name: string
-  picture: string
-  id: string
-}
-
-interface TokenProps {
-  name: string
-  picture: string
-  sub: string
-  iat: number
-  exp: number
-}
 
 export default function Home() {
   // loading
@@ -41,29 +20,10 @@ export default function Home() {
     try {
       setIsLoading(true)
 
-      // criar hook pra isso
-      const response = (await api.post("/register", {
-        sub,
-        name,
-        picture,
-      })) as ResponseData
-
-      const responseToken = response.data.token
-
-      const token = jwtDecode(responseToken) as TokenProps
-
-      if (!token) {
-        throw new Error("Token not found")
-      }
-
-      const currentUser: User = {
-        name: token.name,
-        picture: token.picture,
-        id: token.sub,
-      }
+      const currentUser = await userServer.get({ name, picture, sub })
 
       setUser(currentUser)
-
+      // criar funcao de salvar o token no storage
       // set user no storage
       setIsLoading(false)
     } catch (error) {
