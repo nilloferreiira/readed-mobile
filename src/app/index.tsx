@@ -1,37 +1,77 @@
 import * as WebBrowser from "expo-web-browser"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserDev } from "@/storage/const-user"
 import { User, userServer } from "@/server/user-server"
 import { user_dev } from "@/storage/const-user"
-import { Text, View } from "react-native"
+import { Alert, Text, View } from "react-native"
 import { LogoImage } from "@/components/shared/logo-image"
 import { LoginButton } from "@/components/login-page/login-button"
+import { tokenCache } from "@/storage/token-cache"
+import { router } from "expo-router"
 
 WebBrowser.maybeCompleteAuthSession()
 
 export default function Home() {
   // loading
   const [isLoading, setIsLoading] = useState(false)
+  const [isGettingToken, setIsGettingToken] = useState(true)
+
+  // data
   const [user, setUser] = useState<User | null>(null)
+
+  async function saveUser(token: string) {
+    try {
+      await tokenCache.saveToken(token)
+      router.navigate("(auth)")
+    } catch (error) {
+      Alert.alert(
+        "Salvar usuário",
+        "Não foi possível salvar o usuário no dispositivo"
+      )
+    }
+  }
+
+  async function isAuthenticated() {
+    try {
+      const token = await tokenCache.getToken()
+      if (!token) {
+        return setIsGettingToken(false)
+      }
+
+      return router.navigate("(auth)")
+    } catch (error) {
+      setIsGettingToken(false)
+      console.log(error)
+    }
+  }
 
   // pensar onde colocar essa funcao
   async function handleLogin({ name, picture, sub }: UserDev) {
-    // verficar se existe um user no storage antes da requisicao
-    try {
-      setIsLoading(true)
+    const token = await tokenCache.getToken()
 
-      const currentUser = await userServer.get({ name, picture, sub })
+    if (!token) {
+      try {
+        setIsLoading(true)
 
-      setUser(currentUser)
-      // criar funcao de salvar o token no storage
-      // set user no storage
-      setIsLoading(false)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
+        const userData = await userServer.get({ name, picture, sub })
+
+        setUser(userData.user)
+        saveUser(userData.token)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    return router.navigate("(auth)")
   }
+
+  // melhorar o fluxo do useEffect() ele ta piscando a tela de login e depois mudando
+  useEffect(() => {
+    isAuthenticated()
+  }, [])
 
   return (
     <View className="w-full flex-1 items-center justify-center gap-2">

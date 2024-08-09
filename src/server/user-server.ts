@@ -29,21 +29,21 @@ async function get({ name, picture, sub }: UserDev) {
     picture,
   })) as ResponseData
 
-  const responseToken = response.data.token
+  const token = response.data.token
 
-  const token = jwtDecode(responseToken) as TokenProps
+  const decodedToken = jwtDecode(token) as TokenProps
 
-  if (!token) {
+  if (!decodedToken) {
     throw new Error("Token not found")
   }
 
   const currentUser: User = {
-    name: token.name,
-    picture: token.picture,
-    id: token.sub,
+    name: decodedToken.name,
+    picture: decodedToken.picture,
+    id: decodedToken.sub,
   }
 
-  return currentUser
+  return { user: currentUser, token }
 }
 
 export const userServer = { get }

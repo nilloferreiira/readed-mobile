@@ -3,7 +3,7 @@ import { View, Text } from "react-native"
 export default function Home() {
   return (
     <View>
-      <Text>Autenticado</Text>
+      <Text className="text-white">Autenticado</Text>
     </View>
   )
 }

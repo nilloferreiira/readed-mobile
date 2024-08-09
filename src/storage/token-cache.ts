@@ -1,24 +1,26 @@
 import * as SecureStore from "expo-secure-store"
 
-async function getToken(key: string) {
+const TOKEN_STORAGE_KEY = "readed_token"
+
+async function getToken() {
   try {
-    return SecureStore.getItem(key)
+    return SecureStore.getItem(TOKEN_STORAGE_KEY)
   } catch (error) {
     throw error
   }
 }
 
-async function saveToken(key: string, value: string) {
+async function saveToken(value: string) {
   try {
-    return SecureStore.setItemAsync(key, value)
+    return SecureStore.setItemAsync(TOKEN_STORAGE_KEY, value)
   } catch (error) {
     throw error
   }
 }
 
-async function removeToken(key: string) {
+async function removeToken() {
   try {
-    return SecureStore.deleteItemAsync(key)
+    return SecureStore.deleteItemAsync(TOKEN_STORAGE_KEY)
   } catch (error) {
     throw error
   }
