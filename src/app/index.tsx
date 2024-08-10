@@ -1,13 +1,14 @@
 import * as WebBrowser from "expo-web-browser"
 import { useEffect, useState } from "react"
 import { UserDev } from "@/storage/const-user"
-import { User, userServer } from "@/server/user-server"
+import { UserProps, userServer } from "@/server/user-server"
 import { user_dev } from "@/storage/const-user"
 import { Alert, Text, View } from "react-native"
 import { LogoImage } from "@/components/shared/logo-image"
 import { LoginButton } from "@/components/login-page/login-button"
 import { tokenCache } from "@/storage/token-cache"
 import { router } from "expo-router"
+import { Loading } from "@/components/shared/loading"
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -17,7 +18,7 @@ export default function Home() {
   const [isGettingToken, setIsGettingToken] = useState(true)
 
   // data
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<UserProps | null>(null)
 
   async function saveUser(token: string) {
     try {
@@ -75,16 +76,22 @@ export default function Home() {
 
   return (
     <View className="w-full flex-1 items-center justify-center gap-2">
-      <LogoImage />
-      <Text className="text-white">Sua biblioteca pessoa online</Text>
+      {isGettingToken ? (
+        <Loading />
+      ) : (
+        <>
+          <LogoImage />
+          <Text className="text-white">Sua biblioteca pessoa online</Text>
 
-      {user !== null && (
-        <Text className="text-white">Bem vindo {user.name}</Text>
+          {user !== null && (
+            <Text className="text-white">Bem vindo {user.name}</Text>
+          )}
+          <LoginButton
+            onPress={() => handleLogin(user_dev)}
+            isLoading={isLoading}
+          />
+        </>
       )}
-      <LoginButton
-        onPress={() => handleLogin(user_dev)}
-        isLoading={isLoading}
-      />
     </View>
   )
 }

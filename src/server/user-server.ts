@@ -16,10 +16,26 @@ interface TokenProps {
   exp: number
 }
 
-export interface User {
+export interface UserProps {
   name: string
   picture: string
   id: string
+}
+
+function decodeJwt(token: string) {
+  const decodedToken = jwtDecode(token) as TokenProps
+
+  if (!decodedToken) {
+    throw new Error("Token not found")
+  }
+
+  const userInfo: UserProps = {
+    name: decodedToken.name,
+    picture: decodedToken.picture,
+    id: decodedToken.sub,
+  }
+
+  return userInfo
 }
 
 async function get({ name, picture, sub }: UserDev) {
@@ -31,19 +47,9 @@ async function get({ name, picture, sub }: UserDev) {
 
   const token = response.data.token
 
-  const decodedToken = jwtDecode(token) as TokenProps
-
-  if (!decodedToken) {
-    throw new Error("Token not found")
-  }
-
-  const currentUser: User = {
-    name: decodedToken.name,
-    picture: decodedToken.picture,
-    id: decodedToken.sub,
-  }
+  const currentUser = decodeJwt(token)
 
   return { user: currentUser, token }
 }
 
-export const userServer = { get }
+export const userServer = { get, decodeJwt }
