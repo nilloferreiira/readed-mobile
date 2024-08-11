@@ -1,5 +1,5 @@
 import "@/styles/global.css"
-import { Slot } from "expo-router"
+import { router, Slot } from "expo-router"
 import { StatusBar, View } from "react-native"
 import {
   useFonts,
@@ -8,6 +8,24 @@ import {
   Inter_400Regular,
 } from "@expo-google-fonts/inter"
 import { Loading } from "@/components/shared/loading"
+import { AuthContext, AuthProvider } from "@/contexts/auth-context"
+import { useContext, useEffect } from "react"
+
+function InitialLayout() {
+  const { user, loading } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (loading) return
+
+    if (user !== null) {
+      router.replace("(auth)")
+    } else {
+      router.replace("(public)")
+    }
+  }, [user, loading])
+
+  return <>{loading ? <Loading /> : <Slot />}</>
+}
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -21,15 +39,15 @@ export default function Layout() {
   }
 
   return (
-    //criar AuthProvider => funcao para verificar se tem um token no storage =>
-    // mandar o index para pasta public e atraves da funcao getToken() determinar a rota do usuario
     <View className="flex-1 bg-zinc-950">
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={"transparent"}
         translucent
       />
-      <Slot />
+      <AuthProvider>
+        <InitialLayout />
+      </AuthProvider>
     </View>
   )
 }
