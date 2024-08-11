@@ -5,7 +5,7 @@ export function LogoImage() {
     <Image
       source={require("@/assets/logo.png")}
       resizeMode="contain"
-      className="h-8"
+      className="h-8 -ml-4"
     />
   )
 }
