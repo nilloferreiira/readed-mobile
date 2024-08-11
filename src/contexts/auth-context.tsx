@@ -23,18 +23,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Data
   const [user, setUser] = useState<UserProps | null>({} as UserProps)
-  const [token, settoken] = useState<string | null>(null)
+  const [token, setToken] = useState<string | null>(null)
 
   async function getUser() {
     try {
-      const token = await tokenCache.getToken()
+      const tokenOnStorage = await tokenCache.getToken()
 
-      if (!token) return
+      if (!tokenOnStorage) return
 
-      const user = userServer.decodeJwt(token)
+      const user = userServer.decodeJwt(tokenOnStorage)
 
       setUser(user)
-      settoken(token)
+      setToken(tokenOnStorage)
       setIsGettingToken(false)
     } catch (error) {
       console.log(error)

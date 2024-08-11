@@ -12,19 +12,19 @@ import { AuthContext, AuthProvider } from "@/contexts/auth-context"
 import { useContext, useEffect } from "react"
 
 function InitialLayout() {
-  const { user, loading } = useContext(AuthContext)
+  const { user, isGettingToken } = useContext(AuthContext)
 
   useEffect(() => {
-    if (loading) return
+    if (isGettingToken) return
 
     if (user !== null) {
       router.replace("(auth)")
     } else {
       router.replace("(public)")
     }
-  }, [user, loading])
+  }, [user, isGettingToken])
 
-  return <>{loading ? <Loading /> : <Slot />}</>
+  return <>{isGettingToken ? <Loading /> : <Slot />}</>
 }
 
 export default function Layout() {
