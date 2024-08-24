@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function saveUser(token: string) {
     try {
       await tokenCache.saveToken(token)
-      router.navigate("(auth)")
+      router.navigate("(auth)/books")
     } catch (error) {
       Alert.alert(
         "Salvar usuário",
@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    return router.navigate("(auth)")
+    return router.navigate("(auth)/books")
   }
 
   async function logout() {
@@ -92,8 +92,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         token,
-        isLoginLoading: isLoading,
         isGettingToken,
+        isLoginLoading: isLoading,
         login: handleLogin,
         logout,
       }}

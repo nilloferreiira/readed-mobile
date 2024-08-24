@@ -1,15 +1,16 @@
 import { Header } from "@/components/shared/header"
 import { AuthContext } from "@/contexts/auth-context"
-import { useContext } from "react"
+import { router } from "expo-router"
+import { useContext, useEffect } from "react"
 import { View, Text, TouchableOpacity } from "react-native"
 
 export default function Home() {
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout, isGettingToken } = useContext(AuthContext)
 
-  // verificacao caso continue enviando para esta pagina msm q o user seja nulo
+  // o user depois de sair e entrar no app volta como um {}
 
   return (
-    <View className="w-full flex-1 gap-4 p-4 bg-bg items-center">
+    <View className="w-full flex-1 gap-4 p-4 items-center">
       {/* header  */}
       <Header user={user!} />
 

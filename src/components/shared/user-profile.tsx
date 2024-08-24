@@ -7,7 +7,7 @@ interface UserProfileProps {
 
 export function UserProfile({ source }: UserProfileProps) {
   return (
-    <View className="max-w-11 min-w-11">
+    <View className="max-w-11 min-w-11 bg-bg">
       {source ? (
         <Image
           source={{

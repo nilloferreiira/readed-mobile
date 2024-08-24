@@ -18,7 +18,7 @@ function InitialLayout() {
     if (isGettingToken) return
 
     if (user !== null) {
-      router.replace("(auth)")
+      router.replace("(auth)/books")
     } else {
       router.replace("(public)")
     }
