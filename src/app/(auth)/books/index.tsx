@@ -2,9 +2,8 @@ import { Header } from "@/components/shared/header"
 import { Loading } from "@/components/shared/loading"
 import { AuthContext } from "@/contexts/auth-context"
 import { BookProps, bookServer } from "@/server/book-server"
-import { router } from "expo-router"
 import { useContext, useEffect, useState } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, Text } from "react-native"
 
 export default function Home() {
   //Loading
@@ -48,7 +47,7 @@ export default function Home() {
           {books ? (
             <View>
               {books.map((book, i) => (
-                <Text className="text-zinc-300">
+                <Text className="text-zinc-200" key={i}>
                   {`${i + 1} - `}
                   <Text className="text-zinc-100 font-light">{book.name}</Text>
                 </Text>
@@ -61,13 +60,6 @@ export default function Home() {
       )}
 
       {/* end  */}
-
-      <TouchableOpacity
-        onPressIn={() => logout()}
-        className="bg-red-500 p-2 rounded-lg w-12 top-3/4"
-      >
-        <Text className="text-white">Sair</Text>
-      </TouchableOpacity>
     </View>
   )
 }

@@ -20,6 +20,7 @@
     "@expo/vector-icons": "^14.0.0",
     "@react-navigation/native": "^6.1.7",
     "axios": "^1.7.3",
+    "clsx": "^2.1.1",
     "expo": "^51.0.22",
     "expo-constants": "~16.0.1",
     "expo-crypto": "~13.0.2",

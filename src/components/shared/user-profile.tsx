@@ -1,4 +1,4 @@
-import { Image, View, Text } from "react-native"
+import { Image, View } from "react-native"
 import { Loading } from "./loading"
 
 interface UserProfileProps {
@@ -7,7 +7,7 @@ interface UserProfileProps {
 
 export function UserProfile({ source }: UserProfileProps) {
   return (
-    <View className="max-w-11 min-w-11 bg-bg">
+    <View className="max-w-11 min-w-11">
       {source ? (
         <Image
           source={{
