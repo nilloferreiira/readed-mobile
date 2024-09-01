@@ -14,10 +14,10 @@ export default function Home() {
   return (
     <View className="w-full flex-1 items-center justify-center gap-2">
       <LogoImage />
-      <Text className="text-white">Sua biblioteca pessoa online</Text>
+      <Text className="text-fontWhite">Sua biblioteca pessoa online</Text>
 
       {user !== null && (
-        <Text className="text-white">Bem vindo {user.name}</Text>
+        <Text className="text-fontWhite">Bem vindo {user.name}</Text>
       )}
       <LoginButton onPress={() => login(user_dev)} isLoading={isLoginLoading} />
     </View>

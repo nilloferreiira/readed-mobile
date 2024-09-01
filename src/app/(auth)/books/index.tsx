@@ -1,3 +1,4 @@
+import { BookCard } from "@/components/books/book-card"
 import { Header } from "@/components/shared/header"
 import { Loading } from "@/components/shared/loading"
 import { AuthContext } from "@/contexts/auth-context"
@@ -37,26 +38,23 @@ export default function Home() {
       {/* header  */}
       <Header user={user!} />
 
-      <Text className="font-bold text-2xl text-zinc-200">Suas leituras</Text>
+      <Text className="font-bold text-2xl text-fontWhite">Suas leituras</Text>
 
       {/* trocar por Section List  */}
       {isGettingBooks ? (
         <Loading />
       ) : (
-        <View>
+        <>
           {books ? (
-            <View>
+            <View className="items-center justify-center p-2 gap-4">
               {books.map((book, i) => (
-                <Text className="text-zinc-200" key={i}>
-                  {`${i + 1} - `}
-                  <Text className="text-zinc-100 font-light">{book.name}</Text>
-                </Text>
+                <BookCard key={i} book={book} />
               ))}
             </View>
           ) : (
             <Text>Nenhum livro encontrado!</Text>
           )}
-        </View>
+        </>
       )}
 
       {/* end  */}
