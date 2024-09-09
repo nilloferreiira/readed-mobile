@@ -25,9 +25,11 @@ export function Header({ user }: HeaderProps) {
         <UserProfile source={user?.picture!} />
         {showLogoutButton && (
           <View className="flex-row items-center justify-center">
-            <Text className="text-center text-zinc-200 font-semibold pr-2">
-              {user.name}
-            </Text>
+            {user.name && (
+              <Text className="text-center text-zinc-200 font-semibold pr-2">
+                {user.name}
+              </Text>
+            )}
             <LogoutBtn />
           </View>
         )}

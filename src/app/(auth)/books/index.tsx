@@ -4,14 +4,19 @@ import { Loading } from "@/components/shared/loading"
 import { AuthContext } from "@/contexts/auth-context"
 import { BookProps, bookServer } from "@/server/book-server"
 import { useContext, useEffect, useState } from "react"
-import { View, Text } from "react-native"
+import { View, Text, FlatList } from "react-native"
+
+type SectionData = {
+  title: string
+  data: BookProps[]
+}
 
 export default function Home() {
   //Loading
   const [isGettingBooks, setIsGettingBooks] = useState(true)
 
   // User context
-  const { user, logout } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   // Books
   const [books, setBooks] = useState<BookProps[] | null>(null)
@@ -22,6 +27,8 @@ export default function Home() {
       if (booksResponse) {
         setBooks(booksResponse)
       }
+
+      setBooks(booksResponse)
     } catch (error) {
       console.log(error)
     } finally {
@@ -46,11 +53,12 @@ export default function Home() {
       ) : (
         <>
           {books ? (
-            <View className="items-center justify-center p-2 gap-4">
-              {books.map((book, i) => (
-                <BookCard key={i} book={book} />
-              ))}
-            </View>
+            <FlatList
+              data={books}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <BookCard book={item} />}
+              ItemSeparatorComponent={() => <View className="h-4" />}
+            />
           ) : (
             <Text>Nenhum livro encontrado!</Text>
           )}
